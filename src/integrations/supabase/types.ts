@@ -14,6 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
+      alert_notifications: {
+        Row: {
+          alert_id: string
+          contact_id: string
+          delivery_status: string | null
+          error_message: string | null
+          id: string
+          notification_type: string
+          sent_at: string
+        }
+        Insert: {
+          alert_id: string
+          contact_id: string
+          delivery_status?: string | null
+          error_message?: string | null
+          id?: string
+          notification_type: string
+          sent_at?: string
+        }
+        Update: {
+          alert_id?: string
+          contact_id?: string
+          delivery_status?: string | null
+          error_message?: string | null
+          id?: string
+          notification_type?: string
+          sent_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_notification_alert"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "alerts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_notification_contact"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "emergency_contacts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      alerts: {
+        Row: {
+          id: string
+          is_resolved: boolean
+          latitude: number | null
+          longitude: number | null
+          notes: string | null
+          photo_url: string | null
+          resolved_at: string | null
+          trigger_method: string
+          triggered_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          is_resolved?: boolean
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          photo_url?: string | null
+          resolved_at?: string | null
+          trigger_method: string
+          triggered_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          is_resolved?: boolean
+          latitude?: number | null
+          longitude?: number | null
+          notes?: string | null
+          photo_url?: string | null
+          resolved_at?: string | null
+          trigger_method?: string
+          triggered_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_alert_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       emergency_contacts: {
         Row: {
           contact_email: string | null
@@ -42,6 +134,82 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "emergency_contacts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      location_logs: {
+        Row: {
+          accuracy: number | null
+          id: string
+          latitude: number
+          longitude: number
+          session_id: string | null
+          timestamp: string
+          user_id: string
+        }
+        Insert: {
+          accuracy?: number | null
+          id?: string
+          latitude: number
+          longitude: number
+          session_id?: string | null
+          timestamp?: string
+          user_id: string
+        }
+        Update: {
+          accuracy?: number | null
+          id?: string
+          latitude?: number
+          longitude?: number
+          session_id?: string | null
+          timestamp?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_location_user"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      monitoring_sessions: {
+        Row: {
+          companion_share_token: string | null
+          ended_at: string | null
+          id: string
+          is_active: boolean
+          session_type: string
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          companion_share_token?: string | null
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          session_type: string
+          started_at?: string
+          user_id: string
+        }
+        Update: {
+          companion_share_token?: string | null
+          ended_at?: string | null
+          id?: string
+          is_active?: boolean
+          session_type?: string
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_session_user"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
